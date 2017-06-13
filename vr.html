@@ -16,6 +16,52 @@ found in the LICENSE file.
 
     <title>03 - VR Presentation</title>
 
+    <script src="modules/dexie.js"></script>
+    <script type="text/javascript">
+
+    var __TRACKER__ = (function(){
+
+      var db = new Dexie('VRTiming')
+      db.version(1).stores({
+    		samples: '++id,date,requested'
+    	})
+      db.version(1).stores({
+    		samples: '++id,date'
+    	})
+      db.open()
+
+
+      const name = document.location.search.match(/[?&]name=([^&]*)/)
+
+      const payload = {
+        date: +new Date,
+        name: name && decodeURIComponent(name[1])
+      }
+
+      const entry = db.samples.add(payload)
+
+      function handle(key) {
+        if(!payload[key]) payload[key] = performance.now()
+
+        entry.then(id => db.samples.update(id, payload))
+
+      }
+      return {
+        requestable: () => handle('requestable'),
+        requested: () => handle('requested'),
+        rendering: () => handle('rendering'),
+
+        interact: () => {
+          if(payload.rendering) handle('interact')
+        }
+      }
+
+    }());
+
+    __TRACKER__.requestable()
+
+    </script>
+
     <!--
       This sample demonstrates how to present the contents of a WebGL canvas to
       a VRDisplay. The content is not mirrored on the main display while being
@@ -139,6 +185,10 @@ found in the LICENSE file.
       // ================================
 
       function onVRRequestPresent () {
+
+        // user requested time
+        __TRACKER__.requested()
+
         // This can only be called in response to a user gesture.
         vrDisplay.requestPresent([{ source: webglCanvas }]).then(function () {
           // Nothing to do because we're handling things in onVRPresentChange.
@@ -274,6 +324,9 @@ found in the LICENSE file.
       // interaction mode is the baseline for all WebVR compatible devices, and
       // should ideally always be minimally supported.
       function onClick () {
+
+        __TRACKER__.interact()
+
         // Reset the background color to a random value
         gl.clearColor(
             Math.random() * 0.5,
@@ -288,6 +341,11 @@ found in the LICENSE file.
         gl.clear(gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT);
 
         if (vrDisplay) {
+
+          // actually rendering to a display
+          __TRACKER__.rendering()
+
+
           // When presenting content to the VRDisplay we want to update at its
           // refresh rate if it differs from the refresh rate of the main
           // display. Calling VRDisplay.requestAnimationFrame ensures we render
