@@ -22,7 +22,7 @@ found in the LICENSE file.
     var __TRACKER__ = (function(){
 
       var db = new Dexie('VRTiming')
-      db.version(1).stores({
+      db.version(2).stores({
     		samples: '++id,date,requested'
     	})
       db.version(1).stores({
