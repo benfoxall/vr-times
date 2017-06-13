@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title></title>
+    <link rel="stylesheet" href="//cdn.rawgit.com/milligram/milligram/master/dist/milligram.min.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+  </head>
+  <body>
+    <div class="container">
+
+      <h1>WebVR Transition Timing</h1>
+
+      <p>Transitioning to a WebVR session can take significant time. This is an attempt to track and document differences between platforms/browsers.</p>
+
+      <hr />
+
+      <form action="vr.html">
+        <label>
+          Title
+          <input type="text" name="name" class="column" placeholder="eg. Cardboard test run 3">
+        </label>
+        <input type="submit" value="Start Testing">
+      </form>
+
+      <p>
+        This will take you to a WebVR sample page, click the 'EnterVR' link.
+      </p>
+
+      <hr />
+
+      <div id="results"></div>
+
+
+      <script src="modules/dexie.js"></script>
+      <script>
+
+        var db = new Dexie('VRTiming')
+        db.version(2).stores({
+          samples: '++id,date,requested'
+        })
+        db.version(1).stores({
+          samples: '++id,date'
+        })
+        db.open()
+
+        db.samples
+          .orderBy('id')
+          .reverse()
+          .limit(20)
+          .toArray(samples => {
+
+            samples.forEach(sample => {
+              console.log(sample)
+
+              results.appendChild(template(sample))
+            })
+
+
+
+            console.log(samples)
+          })
+
+
+
+        // very veryy veryyyyy hacky
+        function template(data) {
+
+          const escapes = []
+          function e(t) {
+            return `<span data-escape=${escapes.push(t)-1}></span>`;
+          }
+
+          function n(v) {
+            if(isFinite(v)) return v.toFixed(2)
+            return '_'
+          }
+
+          const div = document.createElement('div')
+          div.innerHTML =
+            `<h4>
+              <span>${e(data.name || data.note)}</span>
+              <a href="#rm">&times;</a>
+            </h4>
+            <p>
+              request: <strong>${n(data.requested/1000)}s</strong>,
+              rendering: <strong>${n(data.rendering/1000)}s</strong>,
+              interact: <strong>${n(data.interact/1000)}s</strong>
+            </p>
+            <textarea rows="8" cols="80" placeholder="extra notes/details"></textarea>`
+
+          for(let span of div.querySelectorAll('[data-escape]')) {
+            console.log(span)
+            const text = escapes[span.dataset.escape]
+            span.textContent = text
+          }
+
+          // hook up to DB row
+
+          div.querySelector('textarea').textContent = data.extra||''
+          div.querySelector('textarea').addEventListener('change', function(e){
+            db.samples.update(data.id, {extra: this.value})
+          })
+
+          div.querySelector('[href="#rm"]').addEventListener('click', (e) => {
+            e.preventDefault()
+            div.remove()
+            db.samples.delete(data.id)
+          })
+
+          return div
+        }
+      </script>
+
+
+    </div>
+  </body>
+</html>
