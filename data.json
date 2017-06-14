@@ -1,0 +1,23 @@
+[
+  {
+    "device": "Pixel + Daydream",
+    "recorded_by": "@benjaminbenben",
+    "recored_on": "14/7/2017",
+
+    "video_link": "https://www.youtube.com/watch?v=ezDDX1omHEI",
+    "notes": "not sure if video syncing was correct - final interaction seemed out by 2s",
+
+    "events": [
+      {"start": 50.77,  "name": "vrRequested"},
+
+      {"start": 52, "name":"note", "value": "opening front"},
+      {"start": 56, "name":"note", "value": "positioning phone"},
+      {"start": 58.5, "name":"note", "value": "closed viewer"},
+      {"start": 64, "name":"note", "value": "viewer on face"},
+      {"start": 66, "name":"note", "value": "pairing controller"},
+
+      {"start": 72.92, "name": "vrPresenting"},
+      {"start": 74.04, "name": "vrInteracting"}
+    ]
+  }
+]
