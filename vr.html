@@ -35,7 +35,7 @@ found in the LICENSE file.
 
       const payload = {
         date: +new Date,
-        name: name && decodeURIComponent(name[1])
+        name: name && decodeURIComponent(name[1]).replace('+', ' ')
       }
 
       const entry = db.samples.add(payload)
