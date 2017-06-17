@@ -1,26 +1,5 @@
 [
   {
-    "name": "Daydream",
-    "recorded_by": "@benjaminbenben",
-    "recored_on": "14/7/2017",
-
-    "video_link": "https://www.youtube.com/watch?v=ezDDX1omHEI",
-    "notes": "not sure if video syncing was correct - final interaction seemed out by 2s",
-
-    "events": [
-      {"time": 50.77, "type": "event", "value": "vrRequested"},
-
-      {"time": 52, "type": "note", "value": "opening front"},
-      {"time": 56, "type": "note", "value": "positioning phone"},
-      {"time": 58.5, "type": "note", "value": "closed viewer"},
-      {"time": 64, "type": "note", "value": "viewer on face"},
-      {"time": 66, "type": "note", "value": "pairing controller"},
-
-      {"time": 72.92, "type": "event", "value": "vrPresenting"},
-      {"time": 74.04, "type": "event", "value": "vrInteract"}
-    ]
-  },
-  {
     "name": "Vive",
     "recorded_by": "@benjaminbenben",
     "recored_on": "17/6/2017",
@@ -89,6 +68,27 @@
       {"time": 24.59, "type": "note", "value": "position phone"},
       {"time": 25.59, "type": "note", "value": "close headset"},
       {"time": 28.49, "type": "event", "value": "vrInteracting"}
+    ]
+  },
+  {
+    "name": "Daydream",
+    "recorded_by": "@benjaminbenben",
+    "recored_on": "14/7/2017",
+
+    "video_link": "https://www.youtube.com/watch?v=ezDDX1omHEI",
+    "notes": "not sure if video syncing was correct - final interaction seemed out by 2s",
+
+    "events": [
+      {"time": 50.77, "type": "event", "value": "vrRequested"},
+
+      {"time": 52, "type": "note", "value": "opening front"},
+      {"time": 56, "type": "note", "value": "positioning phone"},
+      {"time": 58.5, "type": "note", "value": "closed viewer"},
+      {"time": 64, "type": "note", "value": "viewer on face"},
+      {"time": 66, "type": "note", "value": "pairing controller"},
+
+      {"time": 72.92, "type": "event", "value": "vrPresenting"},
+      {"time": 74.04, "type": "event", "value": "vrInteract"}
     ]
   }
 ]
