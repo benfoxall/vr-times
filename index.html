@@ -15,55 +15,11 @@
 
       <hr />
 
-
-      <!-- TODO: generate automatically from data.json -->
-
-
-      <h3 class="run-name">Pixel + Daydream</h3>
-      <h4 class=run-credit><small>Captured 14/7/17 by @benjaminbenben <a href="https://www.youtube.com/watch?v=ezDDX1omHEI">(video)</a></small></h4>
-
-      <h4>Total time: 23s</h4>
-      <ul class="timeline">
-        <li class="type-vrRequested">
-          <span class="time">50.77,</span>
-          <span class="label vrRequested">vrRequested</span>
-        </li>
-        <li class="type-note">
-          <span class="time">52</span>
-          <span class="label note">opening front</span>
-        </li>
-        <li class="type-note">
-          <span class="time">56</span>
-          <span class="label note">positioning phone</span>
-        </li>
-        <li class="type-note">
-          <span class="time">58.5</span>
-          <span class="label note">closed viewer</span>
-        </li>
-        <li class="type-note">
-          <span class="time">64</span>
-          <span class="label note">viewer on face</span>
-        </li>
-        <li class="type-note">
-          <span class="time">66</span>
-          <span class="label note">pairing controller</span>
-        </li>
-        <li class="type-vrPresenting">
-          <span class="time">72.92</span>
-          <span class="label vrPresenting">vrPresenting</span>
-        </li>
-        <li class="type-vrInteracting">
-          <span class="time">74.04</span>
-          <span class="label vrInteracting">vrInteracting</span>
-        </li>
-      </ul>
+      <div id="results"></div>
 
       <hr />
 
-
       <p>Contributions appreciated. If you have a device that supports WebVR head to <a href="capture.html">the capture page</a> to add more data</p>
-
-
 
       <style media="screen">
         .timeline{
@@ -90,38 +46,119 @@
       </style>
 
       <script>
-        for(let timeline of document.querySelectorAll('.timeline')) {
-          const entries = [].map.call(timeline.querySelectorAll('li'), (element) => ({
-            element: element,
-            time: parseFloat(element.querySelector('.time').innerText),
-            label: element.querySelector('.label').innerText
-          }))
 
-          const range = entries.reduce((range, item) => {
-            return {
-              min: Math.min(range.min, item.time),
-              max: Math.max(range.max, item.time)
+        // This is crazy/ugly/hacky - hopefully pull it out to a build step rather
+        // than fixing it
+
+        const template = (data) => {
+
+          const texts = []
+          const t = (value) => `<span data-escape=${texts.push(value)-1}></span>`
+          const e = escape
+
+          const attrs = []
+          const attr = (attr, value) => `data-attr="${attrs.push([attr, value])-1}"`
+
+          const ttvr = data.events.reduce((ttvr, item) => ({
+            start: Math.min(item.time, ttvr.start || item.time),
+            end: Math.max(item.time, ttvr.end || item.time)
+          }), {})
+          console.log(ttvr)
+
+          const htm = `<h3 class="run-name">${t(data.name)}</h3>
+          <h4 class=run-credit><small>Captured ${t(data.recored_on)} by ${e(data.recorded_by)} <a ${attr('href', data.video_link)}>(video)</a></small></h4>
+
+          <h4>Time to VR: ${Math.round(ttvr.end - ttvr.start)}s</h4>
+
+          <ul class="timeline" data-span="${ttvr.end - ttvr.start}">
+            ${
+              data.events.map(event =>
+                `<li class="type-${escape(event.type)}">
+                  <span class="time">${Number(event.time)}</span>
+                  <span class="label">${t(event.value)}</span>
+                </li>`
+              ).join('')
             }
-          }, {min: Number.MAX_VALUE, max: Number.MIN_VALUE})
+          </ul>`
+
+          const div = document.createElement('div')
+          div.innerHTML = htm
+
+          for(let span of div.querySelectorAll('[data-escape]')) {
+            const text = texts[span.dataset.escape]
+            span.textContent = text
+          }
+
+          for(let span of div.querySelectorAll('[data-attr]')) {
+            span.setAttribute.apply(span, attrs[span.dataset.attr])
+          }
 
 
-          // Reduce the timings so they start at 0
-          entries.forEach(m => {
-            m.element.querySelector('.time').innerText =
-              (m.time - range.min).toFixed(2) + 's'
-
-          })
-
-
-          entries.forEach(entry => {
-            const distance = (entry.time - range.min) / (range.max - range.min)
-
-            // space out to half width
-            entry.element.style.marginLeft = (distance * 70) + '%'
-            // console.log("X", prop)
-          })
-
+          return div
         }
+
+        fetch('./data.json')
+          .then(response => response.json())
+          .then(json => {
+            json.forEach(item => {
+              results.appendChild(template(item))
+            })
+
+            renderTimelines()
+          })
+
+        function renderTimelines() {
+
+          for(let timeline of document.querySelectorAll('.timeline')) {
+            const entries = [].map.call(timeline.querySelectorAll('li'), (element) => ({
+              element: element,
+              time: parseFloat(element.querySelector('.time').innerText),
+              label: element.querySelector('.label').innerText
+            }))
+
+            const range = entries.reduce((range, item) => {
+              return {
+                min: Math.min(range.min, item.time),
+                max: Math.max(range.max, item.time)
+              }
+            }, {min: Number.MAX_VALUE, max: Number.MIN_VALUE})
+
+
+            timeline.dataset.timespan = range.max - range.min
+
+            // Reduce the timings so they start at 0
+            entries.forEach(m => {
+              m.element.querySelector('.time').innerText =
+                (m.time - range.min).toFixed(2) + 's'
+
+            })
+
+
+            entries.forEach(entry => {
+              const distance = (entry.time - range.min) / (range.max - range.min)
+
+              // space out to half width
+              entry.element.style.marginLeft = (distance * 70) + '%'
+              // console.log("X", prop)
+            })
+
+          }
+
+          // make everything sized relative to each other
+          const maxSpan = [].reduce.call(
+            document.querySelectorAll('.timeline[data-span]'),
+            (max, el) => Math.max(max, parseFloat(el.dataset.span)),
+            0
+          )
+
+
+          for(let timeline of document.querySelectorAll('.timeline[data-span]')) {
+            timeline.style.width =
+                ~~((parseFloat(timeline.dataset.span) / maxSpan)*100) + '%'
+
+          }
+        }
+
       </script>
 
     </div>
