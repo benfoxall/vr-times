@@ -1,6 +1,6 @@
 [
   {
-    "device": "Pixel + Daydream",
+    "name": "Pixel + Daydream",
     "recorded_by": "@benjaminbenben",
     "recored_on": "14/7/2017",
 
@@ -8,16 +8,51 @@
     "notes": "not sure if video syncing was correct - final interaction seemed out by 2s",
 
     "events": [
-      {"start": 50.77,  "name": "vrRequested"},
+      {"time": 50.77, "type": "event", "value": "vrRequested"},
 
-      {"start": 52, "name":"note", "value": "opening front"},
-      {"start": 56, "name":"note", "value": "positioning phone"},
-      {"start": 58.5, "name":"note", "value": "closed viewer"},
-      {"start": 64, "name":"note", "value": "viewer on face"},
-      {"start": 66, "name":"note", "value": "pairing controller"},
+      {"time": 52, "type": "note", "value": "opening front"},
+      {"time": 56, "type": "note", "value": "positioning phone"},
+      {"time": 58.5, "type": "note", "value": "closed viewer"},
+      {"time": 64, "type": "note", "value": "viewer on face"},
+      {"time": 66, "type": "note", "value": "pairing controller"},
 
-      {"start": 72.92, "name": "vrPresenting"},
-      {"start": 74.04, "name": "vrInteracting"}
+      {"time": 72.92, "type": "event", "value": "vrPresenting"},
+      {"time": 74.04, "type": "event", "value": "vrInteract"}
+    ]
+  },
+  {
+    "name": "PC + Vive (Cold)",
+    "recorded_by": "@benjaminbenben",
+    "recored_on": "17/6/2017",
+
+    "video_link": "https://www.youtube.com/watch?v=--bF00epZOc",
+    "notes": "getDisplays pushed before vrRequested (but actually this happend before request)",
+
+    "events": [
+      {"time":31.19, "type": "event", "value": "vrGetDisplays"},
+      {"time":33.59, "type": "event", "value": "vrRequested"},
+      {"time":33.65, "type": "event", "value": "vrPresenting"},
+      {"time":34.59, "type": "note", "value": "pick up headset"},
+      {"time":37.59, "type": "note", "value": "headset on face"},
+      {"time":39.59, "type": "note", "value": "turn on controller"},
+      {"time":43.22, "type": "event", "value": "vrInteract"}
+    ]
+  },
+  {
+    "name": "PC + Vive (Hot)",
+    "recorded_by": "@benjaminbenben",
+    "recored_on": "17/6/2017",
+
+    "video_link": "https://www.youtube.com/watch?v=FBvMzYHIElo",
+    "notes": "getDisplays pushed before vrRequested (but actually this happend before request)",
+
+    "events": [
+      {"time":15.11, "type": "event", "value": "vrGetDisplays"},
+      {"time":15.21, "type": "event", "value": "vrRequested"},
+      {"time":15.27, "type": "event", "value": "vrPresenting"},
+      {"time":16.21, "type": "note", "value": "pick up headset"},
+      {"time":18.21, "type": "note", "value": "headset on face"},
+      {"time":19.21, "type": "event", "value": "vrInteract"}
     ]
   }
 ]
