@@ -99,7 +99,7 @@
             <textarea rows="8" cols="80" placeholder="extra notes/details"></textarea>`
 
           for(let span of div.querySelectorAll('[data-escape]')) {
-            console.log(span)
+            // console.log(span)
             const text = escapes[span.dataset.escape]
             span.textContent = text
           }
