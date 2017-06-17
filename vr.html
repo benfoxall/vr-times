@@ -51,6 +51,9 @@ found in the LICENSE file.
 
       }
       return {
+        get_displays: () => handle('get_displays'),
+        got_displays: () => handle('got_displays'),
+
         requestable: () => handle('requestable'),
         requested: () => handle('requested'),
         rendering: () => handle('rendering'),
@@ -261,7 +264,14 @@ found in the LICENSE file.
       if (navigator.getVRDisplays) {
         frameData = new VRFrameData();
 
+
+        __TRACKER__.get_displays()
+
         navigator.getVRDisplays().then(function (displays) {
+
+          __TRACKER__.got_displays()
+
+
           if (displays.length > 0) {
             vrDisplay = displays[displays.length - 1];
 
