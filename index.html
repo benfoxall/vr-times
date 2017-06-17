@@ -11,7 +11,7 @@
 
       <h1>WebVR Times</h1>
 
-      <p>Transitioning to a WebVR session can take significant time. This is an attempt to track the differences between platforms/browsers.</p>
+      <p>Transitioning to a WebVR session can take significant time. This is an attempt to track the differences between platforms/browsers. (Note, timings/approach aren't particuarly accurate, but more toward a general understanding of bottlenecks to VR.)</p>
 
       <hr />
 
@@ -19,7 +19,7 @@
 
       <hr />
 
-      <p>Contributions appreciated. If you have a device that supports WebVR head to <a href="capture.html">the capture page</a> to add more data</p>
+      <p>Contributions appreciated. See <a href="capture.html">capture page</a> for details</p>
 
       <style media="screen">
         .timeline{
@@ -66,7 +66,7 @@
           console.log(ttvr)
 
           const htm = `<h3 class="run-name">${t(data.name)}</h3>
-          <h4 class=run-credit><small>Captured ${t(data.recored_on)} by ${e(data.recorded_by)} <a ${attr('href', data.video_link)}>(video)</a></small></h4>
+          <!--h4 class=run-credit><small>Captured ${t(data.recored_on)} by ${e(data.recorded_by)} <a ${attr('href', data.video_link)}>(video)</a></small></h4-->
 
           <h4>Time to VR: ${Math.round(ttvr.end - ttvr.start)}s</h4>
 
