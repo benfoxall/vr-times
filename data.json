@@ -54,5 +54,41 @@
       {"time":18.21, "type": "note", "value": "headset on face"},
       {"time":19.21, "type": "event", "value": "vrInteract"}
     ]
+  },
+  {
+    "name": "Pixel + Cardboard (Cold)",
+    "recorded_by": "@benjaminbenben",
+    "recored_on": "17/6/2017",
+
+    "video_link": "https://www.youtube.com/watch?v=615b9IHyBMI",
+    "notes": "",
+
+    "events": [
+      {"time": 3.62, "type": "event", "value": "getDisplays"},
+      {"time": 3.72, "type": "event", "value": "vrRequested"},
+      {"time": 4.25, "type": "event", "value": "vrPresenting"},
+      {"time": 8.72, "type": "note", "value": "unpack headset"},
+      {"time": 14.72, "type": "note", "value": "unfold visor"},
+      {"time": 19.72, "type": "note", "value": "position phone"},
+      {"time": 22.72, "type": "note", "value": "close headset"},
+      {"time": 25.22, "type": "event", "value": "vrInteracting"}
+    ]
+  },
+  {
+    "name": "Pixel + Cardboard (Hot)",
+    "recorded_by": "@benjaminbenben",
+    "recored_on": "17/6/2017",
+
+    "video_link": "https://www.youtube.com/watch?v=p1Y-WqyUMhs",
+    "notes": "",
+
+    "events": [
+      {"time": 20.46, "type": "event", "value": "getDisplays"},
+      {"time": 20.59, "type": "event", "value": "vrRequested"},
+      {"time": 21.10, "type": "event", "value": "vrPresenting"},
+      {"time": 24.59, "type": "note", "value": "position phone"},
+      {"time": 25.59, "type": "note", "value": "close headset"},
+      {"time": 28.49, "type": "event", "value": "vrInteracting"}
+    ]
   }
 ]
