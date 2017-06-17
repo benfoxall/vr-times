@@ -417,6 +417,34 @@ found in the LICENSE file.
       }
       window.requestAnimationFrame(onAnimationFrame);
       })();
+
+
+
+      // When a gamepad is pressed, fire a click on the canvas
+      when(isPressed, function() {
+        document.getElementById("webgl-canvas").click()
+      })
+
+      function isPressed() {
+        // ugly for fun
+        for(let gamepad of navigator.getGamepads())
+          if(gamepad)
+            for(let button of gamepad.buttons)
+              if(button.pressed) return true
+      }
+
+      // fire a callback when fn() starts returning true
+      function when(fn, callback) {
+        let prior
+        function poll() {
+          requestAnimationFrame(poll)
+          const current = fn()
+          if(current && prior != current) callback()
+          prior = current
+        }
+        poll()
+      }
+
     </script>
   </body>
 </html>
